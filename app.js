@@ -1,12 +1,15 @@
+// Bad deronne, bad.  global variable.
+var filedata;
+
 Ext.application({
-    name: 'HelloExt',
+    name: 'Dot',
     launch: function() {
     Ext.create('Ext.form.Panel', {
-      //title: 'On The Wall',
       width: 330,
       bodyPadding: 10,
       renderTo: Ext.getBody(),
       items: [
+/*
         { 
           xtype: 'filefield',
           name: 'image',
@@ -15,8 +18,11 @@ Ext.application({
           msgTarget: 'side',
           allowBlank: false,
           anchor: '100%',
-          buttonText: 'Analyze Color Distribution'
+          buttonText: 'Analyze Color Distribution',
+          //validateOnChange: true,
+          //validator: function() {console.log(this.up('buttons'))}
         },
+*/
         {
           xtype: 'numberfield',
           //anchor: '100%',
@@ -114,18 +120,19 @@ Ext.application({
           columns: 2,
           vertical: true,
           items: [
-              { boxLabel: 'Massive spew?', name: 'spew', inputValue: '1' },
+              { boxLabel: 'Massive spew?', name: 'random',      inputValue: '1' },
               //{ boxLabel: 'Item 2', name: 'rb', inputValue: '2', checked: true },
-              { boxLabel: 'Outlines?',  name: 'outlines', inputValue: '2'},
-              { boxLabel: 'Envelope 1', name: 'envelope1', inputValue: '3' },
-              { boxLabel: 'Envelope 2', name: 'envelope2', inputValue: '4' },
+              { boxLabel: 'Outlines?',     name: 'outlines',  inputValue: '2'},
+              { boxLabel: 'Envelope 1',    name: 'envelope1', inputValue: '3' },
+              { boxLabel: 'Envelope 2',    name: 'envelope2', inputValue: '4' },
           ]
         },
       ],
       buttons: [
         {
-          text: 'Go!',
-          handler: dot_analyze
+          text:         'Go!',
+          //disabled:     true,
+          handler:      dot_analyze
         },
         {
           text: 'Save',
@@ -145,14 +152,57 @@ Ext.application({
     }
 });
 
+function dot_getvalues(form) 
+{
+  // This gets you the number fields and the three sliders
+  ret = form.getValues();
+
+  // this gets you the jpg pretties box
+  ret.file = form.down().lastvalue; 
+
+  // this gets the checkbox array
+  boxchecked = form.down('checkboxgroup').getChecked();
+
+  ret.random    = 0;
+  ret.outlines  = 0;
+  ret.envelope1 = 0;
+  ret.envelope2 = 0;
+
+  for(i=0; i<boxchecked; i++) {
+    ret[i].name = 1;
+  }
+
+  return ret;
+}
+
 function dot_analyze(a,b) 
 {
-  // a is the button, b is the event, "this" is somehow the 
-  // Still not sure how to extract the info from the nested form objects
-  console.log(a);
-  console.log(b);
-  console.log(this);
-  //console.log(this.up('form').getForm());
-  //var form = this.up('form').getValues();
-  //console.log(form);
+  var params = dot_getvalues(this.up('form'));
+  if(undefined === filedata) {alert('Please select a file to be analyzed.'); return}
+
+  
+}
+
+// Called after the file selection button is clicked and a file is chosen
+function handleFileSelect(evt) {
+  var files = evt.target.files; // FileList object
+
+  // Should only be one file but the example had a loop
+  for (var i = 0, f; f = files[i]; i++) {
+
+    // Only process image files.
+    if (!f.type.match('image.*')) {
+      continue;
+    }
+
+    var reader = new FileReader();
+
+    // Read in the image file as a data URL.
+    reader.readAsDataURL(f);
+    
+    reader.onload = function(evt) {
+      filedata = evt.target.result;
+      // Somehow, here, I need to enable the 'Go!' button
+    }
+  }
 }
