@@ -3,7 +3,17 @@
     <title>dot.</title>
     <link rel="stylesheet" type="text/css" href="extjs/resources/css/ext-all.css">
     <script type="text/javascript" src="extjs/ext.js"></script>
+    <script type="text/javascript" src="d3.js"></script>
     <script type="text/javascript" src="app.js"></script>
+<style type="text/css">
+
+.circle {
+  fill: "steelblue";
+  stroke: #3182bd;
+  stroke-width: 1.5px;
+}
+</style>
+
 </head>
 <body>
 Just jpg pretties: <input type="file" id="files" name="files[]"  />
@@ -20,5 +30,7 @@ Just jpg pretties: <input type="file" id="files" name="files[]"  />
   }
   document.getElementById('files').addEventListener('change', handleFileSelect, false);
 </script>
-<div id="dot"></div>
+<div id="dot">
+<span id="dotctrl"></span><span id="dotspan"></span>
+</div>
 </html>

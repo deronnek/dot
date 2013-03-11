@@ -1,5 +1,6 @@
-// Bad deronne, bad.  global variable.
+// Bad deronne, bad.  global variables?
 var filedata;
+var svg;
 
 Ext.application({
     name: 'Dot',
@@ -7,7 +8,8 @@ Ext.application({
     Ext.create('Ext.form.Panel', {
       width: 330,
       bodyPadding: 10,
-      renderTo: Ext.getBody(),
+      //renderTo: Ext.getBody(),
+      renderTo: 'dotctrl',
       items: [
 /*
         { 
@@ -43,28 +45,32 @@ Ext.application({
           name: 'Multiblooble',
           fieldLabel: 'Multiblooble',
           value: 0,
-          minValue: 0
+          minValue: 0,
+          maxValue: 10
         },
         {
           xtype: 'numberfield',
           name: 'Wonk',
           fieldLabel: 'Wonk',
           value: 0,
-          minValue: 0
+          minValue: 0,
+          maxValue: 10
         },
         {
           xtype: 'numberfield',
           name: 'Trumble',
           fieldLabel: 'Trumble',
           value: 5,
-          minValue: 0
+          minValue: 0,
+          maxValue: 10
         },
         {
           xtype: 'numberfield',
           name: 'Flermox',
           fieldLabel: 'Flermox',
           value: 0,
-          minValue: 0
+          minValue: 0,
+          maxValue: 10
         },
         {
           xtype: 'sliderfield',
@@ -148,12 +154,19 @@ Ext.application({
         },
       ]
   });
-
+  var h      = 500;
+  var w      = 500;
+        svg  = d3.select("#dotspan").insert("svg:svg", "h2")
+                 .attr("width", w)
+                 .attr("height", h)
+                 .style("background-color","black");
+ 
     }
 });
 
 function dot_getvalues(form) 
 {
+/* {{{ */
   // This gets you the number fields and the three sliders
   ret = form.getValues();
 
@@ -171,16 +184,26 @@ function dot_getvalues(form)
   for(i=0; i<boxchecked; i++) {
     ret[i].name = 1;
   }
-
+/* }}} */
   return ret;
 }
 
 function dot_analyze(a,b) 
 {
   var params = dot_getvalues(this.up('form'));
-  if(undefined === filedata) {alert('Please select a file to be analyzed.'); return}
 
-  
+  // Disabled only for debug
+  // if(undefined === filedata) { alert('Please select a file to be analyzed.'); return; }
+
+  // I should be able to add colors directly from octal rgb values if I extract them like that
+  // For now I'll probably just implement the drawing of the circles and change their colors later
+             
+  // Add a simple circle
+  //svg.append("svg:circle").attr("cx", 50).attr("cy",50).attr("r",10);
+    
+  // Add a circle outline
+  svg.append("svg:circle").attr("cx", 100).attr("cy",100).attr("r",10).style("stroke","white").style("fill","black");
+  svg.append("svg:circle").attr("cx", 200).attr("cy",200).attr("r",20).style("stroke","white").style("fill","black");
 }
 
 // Called after the file selection button is clicked and a file is chosen
