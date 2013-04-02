@@ -16,7 +16,7 @@
 
 </head>
 <body>
-Just jpg pretties: <input type="file" id="files" name="files[]"  />
+  Select your pretty: <input type="file" id="files" name="files[]"  /> 
 <br>
 <script>
   // From here:
@@ -26,12 +26,13 @@ Just jpg pretties: <input type="file" id="files" name="files[]"  />
   if (window.FileReader) {
     // Great success! All the File APIs are supported.
   } else {
-    alert('The File APIs are not fully supported in this browser.  Come back with a real one.');
+    alert('The File APIs are not fully supported in your browser.  Come back with a real one.');
   }
   document.getElementById('files').addEventListener('change', handleFileSelect, false);
 </script>
 <div id="dot">
 <span id="dotctrl"></span><span id="dotspan"></span>
-<canvas id="new_canvas" width="3072" height="2048"></canvas>
+<!-- TODO: figure out how to set the canvas size appropriately -->
+<canvas id="new_canvas" width="3100" height="2048"></canvas>
 </div>
 </html>
