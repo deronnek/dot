@@ -1,10 +1,10 @@
 <html>
 <head>
     <title>dot.</title>
-    <link rel="stylesheet" type="text/css" href="extjs/resources/css/ext-all.css">
-    <script type="text/javascript" src="extjs/ext.js"></script>
-    <script type="text/javascript" src="d3.js"></script>
+    <!-- <link rel="stylesheet" type="text/css" href="extjs/resources/css/ext-all.css"> -->
+    <!-- <script type="text/javascript" src="extjs/ext.js"></script> -->
     <script type="text/javascript" src="app.js"></script>
+    <script type="text/javascript" src="../lib/d3/d3.min.js"></script>
 <style type="text/css">
 
 .circle {
@@ -16,7 +16,7 @@
 
 </head>
 <body>
-  Select your pretty: <input type="file" id="files" name="files[]"  /> 
+  Select your pretty: <input type="file" id="files" name="files[]"  />
 <br>
 <script>
   // From here:
@@ -29,10 +29,16 @@
     alert('The File APIs are not fully supported in your browser.  Come back with a real one.');
   }
   document.getElementById('files').addEventListener('change', handleFileSelect, false);
+
+ svg  = d3.select("body").append("svg")
+          .attr("height", dots_height)
+          .attr("width", dots_width)
+          .style("background-color","black");
+ dot_analyze();
 </script>
 <div id="dot">
 <span id="dotctrl"></span><span id="dotspan"></span>
-<!-- TODO: figure out how to set the canvas size appropriately -->
-<canvas id="new_canvas" width="3100" height="2048"></canvas>
+<!-- TODO: figure out how to set the canvas size appropriately
+<canvas id="new_canvas" width="3100" height="2048"></canvas> -->
 </div>
 </html>
